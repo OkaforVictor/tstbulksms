@@ -1,0 +1,9 @@
+.heads{
+    text-transform: capitalize;
+    color: #080505;
+    text-align: center;
+}
+
+.heads .text{
+    color: green;
+}
