@@ -20,6 +20,7 @@ use App\Http\Controllers\DemoController;
 
 Route::get('/', 'MainController@index');
 Route::get('sms_sender', 'DemoController@index');
+Route::post('sms_sender', 'DemoController@sendMessage');
 Route::get('dashboard', 'MainController@home');
 Route::get('login', 'MainController@login');
 Route::get('compose_sms', 'MainController@compose');

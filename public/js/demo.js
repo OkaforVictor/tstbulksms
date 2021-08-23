@@ -13,35 +13,40 @@ document.addEventListener('DOMContentLoaded', function (e) {
         const password = passwordField.value;
         const sender = senderField.value;
         const mobiles = mobilesField.value;
-        const message = messageField.value; 
+        const message = messageField.value;
 
-        const url = `https://portal.nigeriabulksms.com/api2/?username=${username}$password=${password}&sender=${sender}&message=${message}&mobiles=${mobiles}`;
+        const url = `http://localhost:8000/sms_sender`;
 
-        // AJAXCALL({}, 'POST', url, function (response) {
-        //     console.log("Message Report: ", response);
-        // });
-
-        let request = new XMLHttpRequest();
-        request.open('GET', url);
-        request.onload=function () {
-            console.log("Message Report: ", request.responseText);
-        }
-        request.send();
+        AJAXCALL({
+            data: {
+                "username": username,
+                "password": password,
+                "sender": sender,
+                "mobiles": mobiles,
+                "message": message
+            }
+        }, 'POST', url, function (response) {
+            console.log("Message Report: ", response);
+        });
 
     });
 });
 
-function AJAXCALL(sendObj, actionMET, actionURL, successFXN){
+function AJAXCALL(sendObj, actionMET, actionURL, successFXN) {
     let request = new XMLHttpRequest();
     request.open(actionMET, actionURL);
-    request.onload = ()=>{
-        if (request.status == 200){
+    request.onload = () => {
+        if (request.status == 200) {
             let returnObj = JSON.parse(request.responseText);
-            successFXN(returnObj);   
+            successFXN(returnObj);
         }
     };
 
+    console.log("CSRF_TOKEN: ", document.querySelector('meta[name = "csrf-token"]').getAttribute('content'));
+
+    console.log("Payload: ", sendObj);
+
     request.setRequestHeader('Content-Type', 'application/json');
-    // request.setRequestHeader('X-CSRF-Token', document.querySelector('meta[name = "csrf-token"]').getAttribute('content'));
-    request.send(JSON.stringify(sendObj));      
+    request.setRequestHeader('X-CSRF-Token', document.querySelector('meta[name = "csrf-token"]').getAttribute('content'));
+    request.send(JSON.stringify(sendObj));
 }

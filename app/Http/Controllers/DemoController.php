@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Library\SmsSenderHttpClient;
 use Illuminate\Http\Request;
 
 class DemoController extends Controller
@@ -13,6 +14,27 @@ class DemoController extends Controller
      */
     public function index() {
         return view("demo.index");
+    }
+
+    public function sendMessage (Request $request) {
+        $data = $request->input('data');//accepts http request
+
+        //Instantiate SmsSenderHttpClient
+        $sms_sender = new SmsSenderHttpClient($data['username'], $data['password'], $data['sender'], $data['mobiles'], $data['message']);
+
+        //Try sending message
+        $response = $sms_sender->send();
+
+
+        //Validate if message was sent
+        if ($response['isSuccessful']) {
+            // It's successfully sent the message
+            // Do the rest things here...
+        } else {
+
+            // Check error codes to determine the particular to show to the user.
+
+        }
     }
 
     /**
