@@ -41,7 +41,7 @@ class DemoController extends Controller
 
         // dd($data['msgids']);
 
-        // Check if delivery messages was saved of this message id in the Database. If they exist, retrieve them else try using the Sms Api getDeliveryReport() function to retrieve them from the providers system, save them on the local database and return them to the frontend on success. That way we don't have to go online on the next delivery message request of this message id.
+        // Check if delivery messages was saved of this message id in the local Database. If they exist, retrieve them else try using the Sms Api getDeliveryReport() function to retrieve them from the providers system, save them on the local database and return them to the frontend on success. That way we don't have to go online on the next delivery message request of this same message id.
 
         $response = MultiTexterBulkSmsGateway::getDeliveryReport($data['msgids']);
 
