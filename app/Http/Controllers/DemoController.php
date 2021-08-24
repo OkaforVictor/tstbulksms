@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Library\SmsSenderHttpClient;
+use App\Library\MultiTexterBulkSmsGateway;
+use App\Library\NigeriaBulkSmsGateway;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response as FacadesResponse;
 
 class DemoController extends Controller
 {
@@ -12,29 +15,37 @@ class DemoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         return view("demo.index");
     }
 
-    public function sendMessage (Request $request) {
-        $data = $request->input('data');//accepts http request
+    public function sendMessage(Request $request)
+    {
+        $data = $request->input(); //accepts http request payload
 
-        //Instantiate SmsSenderHttpClient
-        $sms_sender = new SmsSenderHttpClient($data['username'], $data['password'], $data['sender'], $data['mobiles'], $data['message']);
+        // dd($data);
+
+        $sms_sender = new MultiTexterBulkSmsGateway($data['sender'], $data['mobiles'], $data['message']);
 
         //Try sending message
-        $response = $sms_sender->send();
+        $smsResponse = $sms_sender->send();
 
+        //Do Database operation (Log SMS Details) here and return response()->json(responseObj) on success
 
-        //Validate if message was sent
-        if ($response['isSuccessful']) {
-            // It's successfully sent the message
-            // Do the rest things here...
-        } else {
+        return response()->json($smsResponse);
+    }
 
-            // Check error codes to determine the particular to show to the user.
+    public function deliveryReport (Request $request) {
+        $data = $request->input();
 
-        }
+        // dd($data['msgids']);
+
+        // Check if delivery messages was saved of this message id in the Database. If they exist, retrieve them else try using the Sms Api getDeliveryReport() function to retrieve them from the providers system, save them on the local database and return them to the frontend on success. That way we don't have to go online on the next delivery message request of this message id.
+
+        $response = MultiTexterBulkSmsGateway::getDeliveryReport($data['msgids']);
+
+        return response()->json($response);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Library;
 
-class SmsSenderHttpClient {
+class NigeriaBulkSmsGateway {
 
     private $username = "";
     private $password = "";
@@ -20,7 +20,8 @@ class SmsSenderHttpClient {
         $this->mobiles = $mobiles;
         $this->message = $message;
 
-        $this->api_url = "https://portal.nigeriabulksms.com/api2/";
+        $this->api_url = "https://portal.nigeriabulksms.com/api/";
+
         $this->url_data = array(
             'username'=>$this->username, 
             'password'=>$this->password, 
@@ -61,5 +62,28 @@ class SmsSenderHttpClient {
         }
 
         return $response;
+    }
+
+    function getDeliveryReport () {
+
+        $this->url_data = array(
+            'username'=>$this->username, 
+            'password'=>$this->password, 
+            'action'=>"reports", 
+        );
+
+        $this->url_data = http_build_query($this->url_data);
+
+        $this->request = $this->api_url.'?'.$this->url_data;
+
+        $result = file_get_contents($this->request);
+        $result = json_decode($result);
+
+        return array($result);
+
+    }
+
+    function getMobileArray () {
+        return explode(",", $this->mobiles);
     }
 }

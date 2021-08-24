@@ -19,8 +19,9 @@ use App\Http\Controllers\DemoController;
 
 
 Route::get('/', 'MainController@index');
-Route::get('sms_sender', 'DemoController@index');
+Route::get('sms_sender', 'DemoController@index');//For testing
 Route::post('sms_sender', 'DemoController@sendMessage');
+Route::post('sms_sender/dlr', 'DemoController@deliveryReport');
 Route::get('dashboard', 'MainController@home');
 Route::get('login', 'MainController@login');
 Route::get('compose_sms', 'MainController@compose');
