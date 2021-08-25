@@ -12,9 +12,7 @@ class MultiTexterBulkSmsGateway
     private $message = "";
     private $forcednd = "1";
 
-    private $api_url = "";
     private $url_data = "";
-    private $request = "";
 
     function __construct($sender, $mobiles, $message)
     {
@@ -23,8 +21,8 @@ class MultiTexterBulkSmsGateway
         $this->message = $message;
 
         $this->url_data = array(
-            'email' => $this->email,
-            'password' => $this->password,
+            'email' => self::$email,
+            'password' => self::$password,
             'sender_name' => $this->sender,
             'recipients' => $this->mobiles,
             'message' => $this->message,
@@ -33,6 +31,7 @@ class MultiTexterBulkSmsGateway
 
     }
 
+    //Make http request to a remote server
     private static function makeHttpRequest ($url, $data_string, $request_type) {
 
         $curl_url = curl_init($url);
@@ -68,8 +67,7 @@ class MultiTexterBulkSmsGateway
         return $response;
     }
 
-    function getMobileArray()
-    {
+    function getMobileArray() {
         return explode(",", $this->mobiles);
     }
 }
