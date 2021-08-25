@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use\Maatwebsite\Excel\Facades\Excel;
+use\App\Imports\ExcelImport;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -31,8 +32,8 @@ class MainController extends Controller
     }
      public function Compose(Request $request){
         $user = $request->user();
-
-        return view('dashboard.compose', compact('user'));
+        $contacts = DB::table('phone_list')->select('*')->get();
+        return view('dashboard.compose', compact('user','contacts'));
      }
 
      public function uploadContact(Request $request){
@@ -82,4 +83,6 @@ class MainController extends Controller
      public function excelview(){
         return view('swiftsms.uploadcontact');
      }
+
+     
 }

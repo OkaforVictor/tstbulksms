@@ -158,7 +158,9 @@
                 <div class="form-group">
                     <textarea id="compose-textarea" class="form-control" 
                     placeholder="Recepients: eg 0803263532173,08058753625," 
-                    style="height: 200px"></textarea>
+                    style="height: 200px">@foreach ($contacts as $contact)
+                        {{$contact->number}};
+                    @endforeach</textarea>
                 </div>
                 <div class="form-group">
                     <textarea id="compose-textarea" class="form-control" placeholder="Message:" style="height: 100px"></textarea>

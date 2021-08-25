@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-use\Maatwebsite\Excel\Facades\Excel;
-use\App\Imports\ExcelImport;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +26,5 @@ Route::post('Register', 'MainController@register');
 Route::post('Login', 'MainController@loginuser');
 // Route::post('Login', 'MainController@loginuser');
 
-//Route::get('upload', 'MainController@excelview');
+//Route::get('contact', 'MainController@Contact');
 Route::get('upload', 'UploadExcel@excel')->name('excel');
