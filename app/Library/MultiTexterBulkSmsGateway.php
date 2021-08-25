@@ -5,8 +5,8 @@ namespace App\Library;
 class MultiTexterBulkSmsGateway
 {
 
-    private static $email = "tstbasilica@gmail.com";
-    private static $password = "basil@0202tech!";
+    private $email = "";
+    private $password = "";
     private $sender = "";
     private $mobiles = "";
     private $message = "";
@@ -14,15 +14,17 @@ class MultiTexterBulkSmsGateway
 
     private $url_data = "";
 
-    function __construct($sender, $mobiles, $message)
+    function __construct($email, $password, $sender, $mobiles, $message)
     {
+        $this->email = $email;
+        $this->password = $password;
         $this->sender = $sender;
         $this->mobiles = $mobiles;
         $this->message = $message;
 
         $this->url_data = array(
-            'email' => self::$email,
-            'password' => self::$password,
+            'email' => $this->email,
+            'password' => $this->password,
             'sender_name' => $this->sender,
             'recipients' => $this->mobiles,
             'message' => $this->message,
@@ -52,11 +54,11 @@ class MultiTexterBulkSmsGateway
         return $response;
     }
 
-    public static function getDeliveryReport($msgids) {
+    public static function getDeliveryReport($email, $password, $msgids) {
 
         $url_data = array(
-            'email' => self::$email,
-            'password' => self::$password,
+            'email' => $email,
+            'password' => $password,
             'msgids' => $msgids
         );
 

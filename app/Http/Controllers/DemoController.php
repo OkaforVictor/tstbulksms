@@ -20,10 +20,11 @@ class DemoController extends Controller
     public function sendMessage(Request $request)
     {
         $data = $request->input(); //accepts http request payload
+        $email = config('sms_gateway.sms_username');
+        $password = config('sms_gateway.sms_password');
+        // dd($email, $password);
 
-        // dd($data);
-
-        $sms_sender = new MultiTexterBulkSmsGateway($data['sender'], $data['mobiles'], $data['message']);
+        $sms_sender = new MultiTexterBulkSmsGateway($email, $password, $data['sender'], $data['mobiles'], $data['message']);
 
         //Try sending message
         $smsResponse = $sms_sender->send();
@@ -46,13 +47,17 @@ class DemoController extends Controller
     {
         $data = $request->input();
 
+        $email = config('sms_gateway.sms_username');
+        $password = config('sms_gateway.sms_password');
+        // dd($email, $password);
+
         // dd($data['msgids']);
 
 
         // Check if delivery messages was saved of this message id in the local Database. If they exist, retrieve them else try using the Sms Api getDeliveryReport() function to retrieve them from the providers system, save them on the local database and return them to the frontend on success. That way we don't have to go online on the next delivery message request of this same message id.
 
         //This should happen while the machine is connected to the internet
-        $response = MultiTexterBulkSmsGateway::getDeliveryReport($data['msgids']);
+        $response = MultiTexterBulkSmsGateway::getDeliveryReport($email, $password, $data['msgids']);
 
         if ($response) {
 
