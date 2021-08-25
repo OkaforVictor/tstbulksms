@@ -81,7 +81,7 @@ class MainController extends Controller
      }
 
      public function excelview(){
-        return view('swiftsms.uploadcontact');
+      //   return view('swiftsms.uploadcontact');
      }
 
      

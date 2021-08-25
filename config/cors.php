@@ -15,15 +15,16 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
+    // 'paths' => ['api/*'],
+    'paths' => ['/*'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['GET','POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', '*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://localhost:8000', 'http://127.0.0.1:8000', '*'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['Origin', 'X-Requested-With','Authorization', 'Content-Type', 'Accept', 'Access-Control-Allow-Origin', '*'],
 
     'exposed_headers' => [],
 
